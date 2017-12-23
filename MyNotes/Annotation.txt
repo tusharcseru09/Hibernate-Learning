@@ -1,0 +1,110 @@
+## Hibernate supports EJB 3 persistence annotations. 
+The EJB 3 annotations are contained in the javax.persistence package.
+
+##  @Transient
+==============
+	Every non static non transient property of an entity is considered persistent,  
+	unless you annotate it as  @Transient. 
+
+##  @Basic
+==========
+	Not having an  annotation for your property is equivalent to the appropriate  @Basic annotation. 
+	The  @Basic annotation allows you to declare the fetching strategy for a  property
+
+##  @SequenceGenerator
+======================
+	@Id
+	@Column(name = "ITEM_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ItemIdSeqGenerator")
+	@SequenceGenerator(name="ItemIdSeqGenerator", sequenceName="ITEM_ID_SEQ", allocationSize=1)
+	private long itemId;
+	
+	The @SequenceGenerator annotation describes the sequence generator named "ItemIdSeqGenerator".
+	The sequence in the database that needs to be used is called ITEM_ID_SEQ.
+	
+	allocationSize=N means that "Go and fetch the next value from the database once in every N persist calls. And locally increment the value by 1 in between.".
+
+##  @OneToOne
+=============
+
+	------------------Uni directional(ONE WAY FOREIGN KEY)-----------------------
+	public class User {
+	....
+		@Id
+		private Integer userId;
+		
+		@OneToOne
+		@JoinColumn(name="Add_ID")
+		private Address *userAdd*;
+	...
+	}	
+	
+	public class Address {
+	....
+		@OneToOne((mappedBy="*userAdd*")
+		private User user;
+	...
+	}	
+	
+	------------------Bi directional(TWO WAY FOREIGN KEY)-----------------------
+	public class User {
+	....
+		@Id
+		private Integer userId;
+		
+		@OneToOne
+		@JoinColumn(name="Add_ID")
+		private Address add;
+	...
+	}	
+	
+	public class Address {
+	....
+		@OneToOne
+		@JoinColumn(name="USER_ID")
+		private User user;
+	...
+	}	
+	
+	
+	
+	
+	Example 1: One-to-one association that maps a foreign key column
+ 	----------------------------------------------------------------
+     // On Customer class:
+     @OneToOne(optional=false)
+     @JoinColumn(
+     	name="CUSTREC_ID", unique=true, nullable=false, updatable=false)
+     private CustomerRecord customerRecord;
+     
+ 
+ 
+     // On CustomerRecord class:
+ 	 @OneToOne(optional=false, mappedBy="customerRecord")
+     public Customer getCustomer() { return customer; }
+ 
+ 
+     Example 2: One-to-one association that assumes both the source and target share the same primary key values
+ 	 -----------------------------------------------------------------------------------------------------------
+ 	 Assume that Employee and EmployeeInfo share the same primary key. So do @MapsId annotation.
+ 	 
+     // On Employee class:
+     @Entity
+     public class Employee {
+     	@Id Integer id;
+ 
+     	@OneToOne 
+     	@MapsId
+     	EmployeeInfo info;
+     	...
+     }
+ 
+     // On EmployeeInfo class:
+     @Entity
+     public class EmployeeInfo {
+     	@Id Integer id;
+     	...
+     }
+ 
+	
+	

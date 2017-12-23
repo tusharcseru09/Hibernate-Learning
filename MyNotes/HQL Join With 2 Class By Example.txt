@@ -1,0 +1,159 @@
+https://www.concretepage.com/hibernate/
+https://www.concretepage.com/hibernate/hibernate-hql-associations-and-inner-join-left-outer-join-right-outer-join-cross-join-example
+
+
+Hibernate HQL Associations and inner join, left outer join, right outer join, cross join Example
+
+
+On this page we will provide Hibernate HQL Associations and inner join, left outer join, 
+right outer join, cross join example. HQL is Hibernate Query Language. In HQL join 
+providing alias is optional. 
+
+The entities associated with each other by @OneToMany etc can also be joined. 
+The hibernate HQL joins are borrowed from ANSI SQL. These joins are 
+
+1. inner join 
+2. left outer join 
+3. right outer join 
+4. full join 
+
+More than one entity can also appear in HQL which will perform cartesian product that is also known as cross join
+
+
+Entities using Associations
+We have two entities Company and Employee. 
+The first entity has @OneToMany association with second entity. 
+===========================================================================================================
+
+============================================Employee.java==================================================
+package com.concretepage;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="employee")
+public class Employee {
+	@Id
+	@Column(name="emp_id")
+	private int empId;
+	@Column(name="emp_name")
+	private String empName;
+	// Setters and Getters
+} 
+===========================================================================================================
+
+=============================================Company.java==================================================
+package com.concretepage;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+@Entity
+@Table(name="company")
+public class Company {
+	@Id
+	@Column(name="comp_id")
+	private int compId;
+	@Column(name="comp_name")
+	private String compName;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="comp_id")
+	private Set<Employee> employees; 
+	// Setters and Getters
+} 
+===========================================================================================================
+
+
+============================================HQL Innir Join=================================================
+String hql = "from Company as comp inner join comp.employees as emp";
+===========================================================================================================
+
+
+=========================================HQLJoinDemo.java==================================================
+package com.concretepage;
+import java.util.List;
+import org.hibernate.Session;
+public class HQLJoinDemo {
+	public static void main(String[] args) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String hql = "from Company as comp inner join comp.employees as emp";
+		List <?>  list = session.createQuery(hql).list(); 
+		for(int i=0; i  < list.size(); i++) {
+			Object[] row = (Object[]) list.get(i);
+			Company company = (Company)row[0];
+			Employee employee = (Employee)row[1];
+			System.out.println("CompId:"+company.getCompId()+", CompName:"+ company.getCompName()+
+					   ", EmpId:"+ employee.getEmpId()+", EmpName:"+ employee.getEmpName());
+		}		
+		session.close();
+	}
+} 
+===========================================================================================================
+
+
+=========================================Database===========================================================
+
+SELECT * FROM COMPANY; 
+comp_id  comp_name
+  1			ABCD
+  2			EFGH
+
+SELECT * FROM EMPLOYEE:
+emp_id 	emp_name	comp_id
+  1		Mohan			2
+  2		Sohan			1
+  3		Ramesh			2
+
+===========================================================================================================
+
+HQL Innir Join
+String hql = "from Company as comp inner join comp.employees as emp";
+
+OUTPUT:
+Hibernate: select company0_.comp_id as comp_id1_0_0_, employees1_.emp_id as emp_id1_1_1_, company0_.comp_name as comp_nam2_0_0_, employees1_.emp_name as emp_name2_1_1_ from company company0_ inner join employee employees1_ on company0_.comp_id=employees1_.comp_id
+CompId:2, CompName:EFGH, EmpId:1, EmpName:Mohan
+CompId:1, CompName:ABCD, EmpId:2, EmpName:Sohan
+CompId:2, CompName:EFGH, EmpId:3, EmpName:Ramesh 
+
+
+HQL left outer join
+String hql = "from Company as comp left outer join comp.employees as emp";
+
+OUTPUT:
+Hibernate: select company0_.comp_id as comp_id1_0_0_, employees1_.emp_id as emp_id1_1_1_, company0_.comp_name as comp_nam2_0_0_, employees1_.emp_name as emp_name2_1_1_ from company company0_ left outer join employee employees1_ on company0_.comp_id=employees1_.comp_id
+CompId:1, CompName:ABCD, EmpId:2, EmpName:Sohan
+CompId:2, CompName:EFGH, EmpId:1, EmpName:Mohan
+CompId:2, CompName:EFGH, EmpId:3, EmpName:Ramesh  
+
+HQL right outer join
+String hql = "from Company as comp right outer join comp.employees as emp";
+
+OUTPUT:
+Hibernate: select company0_.comp_id as comp_id1_0_0_, employees1_.emp_id as emp_id1_1_1_, company0_.comp_name as comp_nam2_0_0_, employees1_.emp_name as emp_name2_1_1_ from company company0_ right outer join employee employees1_ on company0_.comp_id=employees1_.comp_id
+CompId:2, CompName:EFGH, EmpId:1, EmpName:Mohan
+CompId:1, CompName:ABCD, EmpId:2, EmpName:Sohan
+CompId:2, CompName:EFGH, EmpId:3, EmpName:Ramesh  
+
+
+HQL cross join
+String hql = "from Company as comp, Employee as emp";
+
+OUTPUT:
+Hibernate: select company0_.comp_id as comp_id1_0_0_, employee1_.emp_id as emp_id1_1_1_, company0_.comp_name as comp_nam2_0_0_, employee1_.emp_name as emp_name2_1_1_ from company company0_ cross join employee employee1_
+CompId:1, CompName:ABCD, EmpId:1, EmpName:Mohan
+CompId:2, CompName:EFGH, EmpId:1, EmpName:Mohan
+CompId:1, CompName:ABCD, EmpId:2, EmpName:Sohan
+CompId:2, CompName:EFGH, EmpId:2, EmpName:Sohan
+CompId:1, CompName:ABCD, EmpId:3, EmpName:Ramesh
+CompId:2, CompName:EFGH, EmpId:3, EmpName:Ramesh  
+
+
+
+
+
+

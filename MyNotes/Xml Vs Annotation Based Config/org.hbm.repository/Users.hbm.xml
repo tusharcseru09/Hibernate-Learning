@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!--	***	Mapping Fiels	*** 
+Hibernate mapping 
+Hinernate mapping DTD 
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+ 
+<hibernate-mapping>
+
+	<class name="org.hbm.repository.Users" table="USERS">
+	
+		<id name="userId" column="USER_ID"> 
+			<generator class="assigned" />
+		</id>
+		
+		<property name="userUsername" column="USER_USERNAME"/>
+		<property name="userFname" column="USER_FNAME"/>
+		<property name="userLname" column="USER_LNAME"/>
+		<property name="userJobTitle" column="USER_JOB_TITLE"/>
+		<property name="userEmail" column="USER_EMAIL"/>
+		<property name="userGenderId" column="USER_GENDER_ID"/>
+		
+		
+	
+	</class>
+
+</hibernate-mapping>

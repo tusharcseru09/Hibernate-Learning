@@ -1,0 +1,120 @@
+
+	
+		/*
+		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory(); 
+		Session session = sessionFactory.openSession();
+		
+		
+		
+			String strQuery  = "from Users U where U.userId = 1";
+			Query userQuery = session.createQuery(strQuery);
+			List<?> userList = userQuery.list();
+			Iterator<?> userLstItr = userList.iterator();
+			
+			while (userLstItr.hasNext()){
+				Users user = (Users) userLstItr.next();
+				System.out.println(user.getUserId() + "\t" + user.getUserUsername() + "\t" +  user.getUserEmail() + "\t" + user.getUserJobTitle() );
+			}
+		
+			strQuery = "from PhoneNumber PN where PN.userId = 1";
+			Query phoneQuery = session.createQuery(strQuery);
+			List<?> phnList = phoneQuery.list();
+			Iterator<?> phnListItr = phnList.iterator();
+			
+			while(phnListItr.hasNext()){
+					PhoneNumber phnNumber = (PhoneNumber) phnListItr.next();
+					System.out.println(phnNumber.getUserId() + "\t"+ phnNumber.getPhoneId() + "\t"+ phnNumber.getMobileNo());
+					
+			}
+			
+			//from Company as comp, Employee as emp
+			//from Users as users, PhoneNumber as phonenumber
+			strQuery = "from Users as U inner join U.phoneNumbers as PN";
+			Query usePhnrQuery = session.createQuery(strQuery);
+			List<?> userPhnList = usePhnrQuery.list();
+			Iterator<?> userPhnLstItr = userPhnList.iterator();
+			
+			while (userPhnLstItr.hasNext()){
+				 Object[] row = (Object[]) userPhnLstItr.next();
+				 Users userRow = (Users) row[0];
+				 PhoneNumber phnRows = (PhoneNumber) row[1];
+				 
+				 
+				System.out.print(userRow.getUserId() + "\t" + userRow.getUserUsername() );// + "\t" +  userRow.getUserEmail() + "\t" + userRow.getUserJobTitle() );
+				System.out.println(phnRows.getUserId() + "\t" + phnRows.getPhoneId() + "\t" + phnRows.getMobileNo() + "\n");
+				
+			
+			
+			}
+		
+			
+			
+			
+		session.close();
+		sessionFactory.close();
+		
+		
+		
+		
+		
+		
+		*/
+		
+		
+		
+		
+		
+		
+
+/*		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		
+		SQLQuery sqlQuery = session.createSQLQuery("select * from logins").addEntity(Logins.class);
+		List empList = sqlQuery.list();
+		Iterator iterator = empList.iterator();
+		
+		while(iterator.hasNext()){
+			Logins empObj = (Logins) iterator.next();
+			System.out.println(empObj.getLOGIN_USERNAME() + "\t" + empObj.getLOGIN_ID());
+		}
+		
+		
+		SQLQuery sqlQuery = session.createSQLQuery("select * from users").addEntity(Users.class);
+		List empList = sqlQuery.list();
+		Iterator iterator = empList.iterator();
+		
+		while(iterator.hasNext()){
+			Users empObj = (Users) iterator.next();
+			System.out.println(empObj.getUserId() + "\t" + empObj.getUserUsername() + "\t" + empObj.getUserFname() + "\t" + empObj.getUserLname() + "\t" + empObj.getUserJobTitle() + "\t" + empObj.getUserEmail() + "\t" + empObj.getUserGenderId());
+		}
+
+		
+		session.close();
+		sessionFactory.close();*/
+		
+		
+/*		
+		//new AnnotationConfiguration().configure().addAnnotatedClass(Gender.class).buildSessionFactory();
+		SessionFactory factory = new Configuration().configure().buildSessionFactory(); 
+		Session openSession = factory.openSession();
+		
+		
+		 * Here gender denote the class name.
+		 * And it's HQL not SQL
+		 
+		Query createQuery = openSession.createQuery("from org.hbm.repository.Gender G where G.genderId = :genId");
+		//openSession.createQuery("from Users users, Gender gender where users.userGenderId = gender.genderId")
+		createQuery.setParameter("genId", 1);
+		List genderList = createQuery.list();
+		Iterator itrGender = genderList.iterator();
+		
+		while(itrGender.hasNext()){
+			Gender gender = (Gender) itrGender.next();
+			System.out.println(gender.getGenderId() + "\t" + gender.getGenderName());
+		}
+		
+		openSession.close();
+		factory.close();*/
+		
+		
